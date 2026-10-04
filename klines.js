@@ -9,8 +9,12 @@ export async function onRequest() {
             "&limit=720";
 
 
-        const response =
-            await fetch(url);
+        const response = await fetch(url, {
+            method: "GET"
+        });
+
+
+        const text = await response.text();
 
 
         if (!response.ok) {
@@ -18,14 +22,12 @@ export async function onRequest() {
             return new Response(
 
                 JSON.stringify({
-                    error:
-                        "BingX HTTP " +
-                        response.status
+                    error: "BingX HTTP " + response.status,
+                    response: text
                 }),
 
                 {
                     status: 502,
-
                     headers: {
                         "Content-Type":
                             "application/json"
@@ -37,23 +39,59 @@ export async function onRequest() {
         }
 
 
-        const result =
-            await response.json();
+        let result;
 
 
-        if (
-            result.code !== 0 ||
-            !result.data
-        ) {
+        try {
+
+            result = JSON.parse(text);
+
+        } catch (error) {
 
             return new Response(
 
                 JSON.stringify({
                     error:
-                        "BingX nie zwrócił historii",
+                        "BingX zwrócił nieprawidłowy JSON",
+                    response:
+                        text
+                }),
 
-                    bingx:
-                        result
+                {
+                    status: 502,
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+
+            );
+
+        }
+
+
+        /*
+        BingX musi zwrócić code = 0
+        */
+
+        if (result.code !== 0) {
+
+            return new Response(
+
+                JSON.stringify({
+
+                    error:
+                        "BingX zwrócił błąd",
+
+                    code:
+                        result.code,
+
+                    msg:
+                        result.msg,
+
+                    data:
+                        result.data
+
                 }),
 
                 {
@@ -70,9 +108,52 @@ export async function onRequest() {
         }
 
 
+        /*
+        Sprawdzamy dane
+        */
+
+        if (
+            !Array.isArray(result.data)
+        ) {
+
+            return new Response(
+
+                JSON.stringify({
+
+                    error:
+                        "BingX nie zwrócił tablicy świec",
+
+                    bingx:
+                        result
+
+                }),
+
+                {
+                    status: 502,
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+
+            );
+
+        }
+
+
+        /*
+        Zamiana świec BingX
+        na prosty format dla naszego wykresu.
+        
+        BingX:
+        [czas, open, high, low, close, volume...]
+
+        */
+
         const candles =
-            result.data.map(
-                candle => {
+            result.data
+                .map(candle => {
 
                     return {
 
@@ -93,15 +174,31 @@ export async function onRequest() {
 
                     };
 
-                }
-            );
+                })
+                .filter(candle =>
+                    Number.isFinite(candle.time) &&
+                    Number.isFinite(candle.close)
+                );
 
+
+        /*
+        Sortujemy od najstarszej
+        do najnowszej świecy.
+        */
+
+        candles.sort(
+            (a, b) =>
+                a.time - b.time
+        );
+
+
+        /*
+        Zwracamy dane.
+        */
 
         return new Response(
 
-            JSON.stringify(
-                candles
-            ),
+            JSON.stringify(candles),
 
             {
 
@@ -121,8 +218,8 @@ export async function onRequest() {
 
         );
 
-
     }
+
 
     catch (error) {
 
@@ -131,7 +228,10 @@ export async function onRequest() {
             JSON.stringify({
 
                 error:
-                    "Nie można pobrać historii BingX"
+                    "Błąd połączenia z BingX",
+
+                message:
+                    error.message
 
             }),
 

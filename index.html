@@ -1,67 +1,111 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>SPCXB Grid</title>
 
+
 <style>
+
 * {
     box-sizing: border-box;
 }
 
+
 body {
+
     margin: 0;
+
     background: #0d1117;
+
     color: #e6edf3;
-    font-family: Arial, sans-serif;
+
+    font-family:
+        Arial,
+        sans-serif;
 }
 
+
 .container {
+
     max-width: 900px;
+
     margin: 35px auto;
+
     padding: 20px;
 }
 
+
 .header {
+
     text-align: center;
+
     margin-bottom: 30px;
 }
 
+
 .header h1 {
+
     margin: 0;
+
     font-size: 32px;
 }
 
+
 .price {
+
     font-size: 44px;
+
     font-weight: bold;
+
     margin-top: 10px;
 }
 
+
 .status {
+
     margin-top: 8px;
+
     color: #3fb950;
 }
 
+
 .status.error {
+
     color: #f85149;
 }
 
+
 .grid {
+
     background: #161b22;
+
     border: 1px solid #30363d;
+
     border-radius: 12px;
+
     padding: 20px;
 }
 
+
 .level {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     padding: 14px 18px;
+
     margin: 8px 0;
 
     border-radius: 8px;
@@ -71,29 +115,46 @@ body {
     font-size: 18px;
 }
 
+
 .buy {
-    border-left: 5px solid #f85149;
+
+    border-left:
+        5px solid #f85149;
 }
+
 
 .sell {
-    border-left: 5px solid #3fb950;
+
+    border-left:
+        5px solid #3fb950;
 }
 
+
 .current {
-    border: 2px solid #58a6ff;
+
+    border:
+        2px solid #58a6ff;
+
     background: #1f2937;
+
     font-weight: bold;
 }
 
+
 .type-buy {
+
     color: #f85149;
 }
 
+
 .type-sell {
+
     color: #3fb950;
 }
 
+
 .stats {
+
     display: grid;
 
     grid-template-columns:
@@ -104,10 +165,13 @@ body {
     margin-top: 20px;
 }
 
+
 .stat {
+
     background: #161b22;
 
-    border: 1px solid #30363d;
+    border:
+        1px solid #30363d;
 
     border-radius: 10px;
 
@@ -116,7 +180,9 @@ body {
     text-align: center;
 }
 
+
 .stat-title {
+
     color: #8b949e;
 
     font-size: 14px;
@@ -124,13 +190,17 @@ body {
     margin-bottom: 8px;
 }
 
+
 .stat-value {
+
     font-size: 20px;
 
     font-weight: bold;
 }
 
+
 .last-update {
+
     text-align: center;
 
     color: #8b949e;
@@ -140,55 +210,86 @@ body {
     font-size: 13px;
 }
 
+
 @media (max-width: 600px) {
 
     .container {
+
         margin: 10px auto;
+
         padding: 10px;
     }
 
+
     .stats {
+
         grid-template-columns: 1fr;
     }
 
+
     .price {
+
         font-size: 34px;
     }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
 
     <div class="header">
 
-        <h1>SPCXB / USDT</h1>
+
+        <h1>
+            SPCXB / USDT
+        </h1>
+
 
         <div
             class="price"
-            id="currentPrice">
+            id="currentPrice"
+        >
             Ładowanie...
         </div>
 
+
         <div
             class="status"
-            id="status">
+            id="status"
+        >
             ● Łączenie z BingX...
         </div>
 
-    </div>
-
-
-    <div class="grid" id="grid">
-
-        <!-- poziomy zostaną wygenerowane automatycznie -->
 
     </div>
+
+
+
+    <div
+        class="grid"
+        id="grid"
+    >
+
+        <!--
+            Poziomy siatki
+            zostaną utworzone
+            automatycznie
+        -->
+
+    </div>
+
 
 
     <div class="stats">
+
 
         <div class="stat">
 
@@ -196,12 +297,12 @@ body {
                 Krok siatki
             </div>
 
-            <div
-                class="stat-value">
+            <div class="stat-value">
                 4%
             </div>
 
         </div>
+
 
 
         <div class="stat">
@@ -212,11 +313,13 @@ body {
 
             <div
                 class="stat-value"
-                id="nearestBuy">
+                id="nearestBuy"
+            >
                 ---
             </div>
 
         </div>
+
 
 
         <div class="stat">
@@ -227,174 +330,157 @@ body {
 
             <div
                 class="stat-value"
-                id="nearestSell">
+                id="nearestSell"
+            >
                 ---
             </div>
 
         </div>
 
+
     </div>
+
 
 
     <div
         class="last-update"
-        id="lastUpdate">
+        id="lastUpdate"
+    >
         Oczekiwanie na dane...
     </div>
+
 
 </div>
 
 
+
 <script>
 
+
 /*
-    ==============================
-    USTAWIENIA SIATKI
-    ==============================
+==================================================
+USTAWIENIA
+==================================================
 */
 
-const SYMBOL = "SPCXB-USDT";
 
 const GRID_STEP = 0.04;
 
 
 /*
-    Ile poziomów pokazujemy
+Ile poziomów BUY
 */
 
+
 const LEVELS_BELOW = 6;
-const LEVELS_ABOVE = 2;
 
 
 /*
-    ==============================
-    POBIERANIE CENY Z BINGX
-    ==============================
+Ile poziomów SELL
 */
+
+
+const LEVELS_ABOVE = 2;
+
+
+
+/*
+==================================================
+POBIERANIE CENY
+==================================================
+
+Przeglądarka nie łączy się bezpośrednio
+z BingX.
+
+Pyta nasz Cloudflare:
+
+/api/price
+
+Cloudflare pobiera cenę z BingX.
+*/
+
 
 async function getPrice() {
 
-    const url =
-        "https://open-api.bingx.com/openApi/spot/v2/ticker/price?symbol="
-        + SYMBOL;
 
-    try {
+    const response = await fetch(
 
-        const response =
-            await fetch(url, {
-                cache: "no-store"
-            });
+        "/api/price",
 
-        if (!response.ok) {
-            throw new Error(
-                "HTTP " + response.status
-            );
+        {
+            cache: "no-store"
         }
 
-        const json =
-            await response.json();
+    );
 
 
-        /*
-            BingX zwraca dane w strukturze:
+    if (!response.ok) {
 
-            data
-              └── trades
-                    └── price
-        */
-
-        let price = null;
-
-
-        if (
-            json &&
-            json.data &&
-            Array.isArray(json.data) &&
-            json.data.length > 0 &&
-            json.data[0].trades &&
-            json.data[0].trades.length > 0
-        ) {
-
-            price =
-                parseFloat(
-                    json.data[0]
-                        .trades[0]
-                        .price
-                );
-
-        }
-
-
-        /*
-            Dodatkowa obsługa starszego formatu API
-        */
-
-        if (
-            !price &&
-            json &&
-            json.data &&
-            json.data.price
-        ) {
-
-            price =
-                parseFloat(
-                    json.data.price
-                );
-
-        }
-
-
-        if (
-            !price ||
-            isNaN(price)
-        ) {
-
-            throw new Error(
-                "Nie znaleziono ceny w odpowiedzi BingX"
-            );
-
-        }
-
-
-        return price;
-
-    } catch (error) {
-
-        console.error(
-            "BingX error:",
-            error
+        throw new Error(
+            "HTTP " +
+            response.status
         );
 
-        throw error;
+    }
+
+
+    const json =
+        await response.json();
+
+
+    if (
+        !json.price ||
+        isNaN(json.price)
+    ) {
+
+        throw new Error(
+            "Brak ceny"
+        );
 
     }
+
+
+    return Number(
+        json.price
+    );
 
 }
 
 
+
 /*
-    ==============================
-    GENEROWANIE SIATKI
-    ==============================
+==================================================
+GENEROWANIE SIATKI
+==================================================
 */
+
 
 function createGrid(price) {
 
+
     const grid =
-        document.getElementById("grid");
+        document.getElementById(
+            "grid"
+        );
+
 
     grid.innerHTML = "";
 
 
+
     /*
-        SELL
+    ==============================================
+    SELL
+    ==============================================
     */
+
 
     for (
         let i = LEVELS_ABOVE;
         i >= 1;
         i--
     ) {
+
 
         const level =
             price *
@@ -405,43 +491,77 @@ function createGrid(price) {
 
 
         addLevel(
+
             grid,
+
             "SELL",
+
             level,
-            "+" + (i * 4) + "%"
+
+            "+" +
+            (i * 4) +
+            "%"
+
         );
 
     }
 
 
+
     /*
-        AKTUALNA CENA
+    ==============================================
+    AKTUALNA CENA
+    ==============================================
     */
 
+
     const current =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     current.className =
         "level current";
 
+
     current.innerHTML = `
-        <span>● TERAZ</span>
-        <strong>${formatPrice(price)} USDT</strong>
-        <span>---</span>
+
+        <span>
+            ● TERAZ
+        </span>
+
+        <strong>
+            ${formatPrice(price)}
+            USDT
+        </strong>
+
+        <span>
+            ---
+        </span>
+
     `;
 
-    grid.appendChild(current);
+
+    grid.appendChild(
+        current
+    );
+
 
 
     /*
-        BUY
+    ==============================================
+    BUY
+    ==============================================
     */
+
 
     for (
         let i = 1;
         i <= LEVELS_BELOW;
         i++
     ) {
+
 
         const level =
             price *
@@ -452,53 +572,91 @@ function createGrid(price) {
 
 
         addLevel(
+
             grid,
+
             "BUY",
+
             level,
-            "-" + (i * 4) + "%"
+
+            "-" +
+            (i * 4) +
+            "%"
+
         );
 
     }
 
 
+
     /*
-        Najbliższe poziomy
+    ==============================================
+    NAJBLIŻSZY BUY
+    ==============================================
     */
 
-    const nearestBuy =
-        price * (1 - GRID_STEP);
 
-    const nearestSell =
-        price * (1 + GRID_STEP);
+    const nearestBuy =
+        price *
+        (1 - GRID_STEP);
 
 
     document.getElementById(
         "nearestBuy"
     ).textContent =
-        formatPrice(nearestBuy);
+        formatPrice(
+            nearestBuy
+        );
+
+
+
+    /*
+    ==============================================
+    NAJBLIŻSZY SELL
+    ==============================================
+    */
+
+
+    const nearestSell =
+        price *
+        (1 + GRID_STEP);
 
 
     document.getElementById(
         "nearestSell"
     ).textContent =
-        formatPrice(nearestSell);
+        formatPrice(
+            nearestSell
+        );
 
 }
 
 
+
 /*
-    Dodanie poziomu
+==================================================
+DODANIE POZIOMU
+==================================================
 */
 
+
 function addLevel(
+
     grid,
+
     type,
+
     price,
+
     percentage
+
 ) {
 
+
     const level =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     level.className =
@@ -512,31 +670,42 @@ function addLevel(
 
     level.innerHTML = `
 
-        <span>${type}</span>
+        <span>
+            ${type}
+        </span>
 
         <strong>
-            ${formatPrice(price)} USDT
+            ${formatPrice(price)}
+            USDT
         </strong>
 
-        <span class="${
-            type === "BUY"
-                ? "type-buy"
-                : "type-sell"
-        }">
+        <span
+            class="${
+                type === "BUY"
+                    ? "type-buy"
+                    : "type-sell"
+            }"
+        >
             ${percentage}
         </span>
 
     `;
 
 
-    grid.appendChild(level);
+    grid.appendChild(
+        level
+    );
 
 }
 
 
+
 /*
-    Format ceny
+==================================================
+FORMAT CENY
+==================================================
 */
+
 
 function formatPrice(price) {
 
@@ -546,13 +715,16 @@ function formatPrice(price) {
 }
 
 
+
 /*
-    ==============================
-    AKTUALIZACJA
-    ==============================
+==================================================
+AKTUALIZACJA
+==================================================
 */
 
+
 async function update() {
+
 
     const status =
         document.getElementById(
@@ -562,31 +734,47 @@ async function update() {
 
     try {
 
+
+        /*
+        Pobierz aktualną cenę
+        */
+
+
         const price =
             await getPrice();
 
 
+
         /*
-            Cena główna
+        Cena główna
         */
+
 
         document.getElementById(
             "currentPrice"
         ).textContent =
+
             formatPrice(price)
-            + " USDT";
+            +
+            " USDT";
 
-
-        /*
-            Siatka
-        */
-
-        createGrid(price);
 
 
         /*
-            Status
+        Utwórz siatkę
         */
+
+
+        createGrid(
+            price
+        );
+
+
+
+        /*
+        Status
+        */
+
 
         status.textContent =
             "● ONLINE — BingX";
@@ -596,9 +784,11 @@ async function update() {
             "status";
 
 
+
         /*
-            Czas aktualizacji
+        Czas aktualizacji
         */
+
 
         const now =
             new Date();
@@ -607,11 +797,21 @@ async function update() {
         document.getElementById(
             "lastUpdate"
         ).textContent =
+
             "Ostatnia aktualizacja: "
-            + now.toLocaleTimeString();
+            +
+            now.toLocaleTimeString();
+
+
 
 
     } catch (error) {
+
+
+        console.error(
+            error
+        );
+
 
         status.textContent =
             "● BŁĄD POŁĄCZENIA Z BINGX";
@@ -624,6 +824,7 @@ async function update() {
         document.getElementById(
             "lastUpdate"
         ).textContent =
+
             "Nie udało się pobrać ceny.";
 
     }
@@ -631,23 +832,37 @@ async function update() {
 }
 
 
+
 /*
-    Pierwsze pobranie
+==================================================
+PIERWSZE POBRANIE
+==================================================
 */
+
 
 update();
 
 
+
 /*
-    Aktualizacja co 2 sekundy
+==================================================
+ODŚWIEŻANIE CO 2 SEKUNDY
+==================================================
 */
 
+
 setInterval(
+
     update,
+
     2000
+
 );
+
 
 </script>
 
+
 </body>
+
 </html>

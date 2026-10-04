@@ -35,9 +35,9 @@ body {
 }
 
 
-/* =========================
+/* ==========================================
    HEADER
-========================= */
+========================================== */
 
 .header {
     text-align: center;
@@ -69,9 +69,9 @@ body {
 }
 
 
-/* =========================
+/* ==========================================
    GRID
-========================= */
+========================================== */
 
 .grid {
     background: #161b22;
@@ -148,12 +148,6 @@ body {
 }
 
 
-.type-base {
-    color: #d29922;
-    font-weight: bold;
-}
-
-
 .current-label {
     color: #58a6ff;
 }
@@ -161,9 +155,11 @@ body {
 
 .base-button {
     background: #30363d;
+
     color: #e6edf3;
 
     border: 1px solid #484f58;
+
     border-radius: 6px;
 
     padding: 7px 9px;
@@ -181,25 +177,18 @@ body {
 }
 
 
-.base-button.active {
-    background: #9e6a03;
-    border-color: #d29922;
-
-    color: white;
-    font-weight: bold;
-}
-
-
 .current-base {
     color: #d29922;
+
     font-weight: bold;
+
     font-size: 12px;
 }
 
 
-/* =========================
-   STATS
-========================= */
+/* ==========================================
+   STATYSTYKI
+========================================== */
 
 .stats {
     display: grid;
@@ -242,9 +231,9 @@ body {
 }
 
 
-/* =========================
-   CHART
-========================= */
+/* ==========================================
+   WYKRES
+========================================== */
 
 .chart-box {
 
@@ -296,7 +285,7 @@ body {
 
     width: 100%;
 
-    height: 330px;
+    height: 400px;
 
     position: relative;
 
@@ -329,9 +318,9 @@ body {
 }
 
 
-/* =========================
-   UPDATE
-========================= */
+/* ==========================================
+   OSTATNIA AKTUALIZACJA
+========================================== */
 
 .last-update {
 
@@ -345,9 +334,9 @@ body {
 }
 
 
-/* =========================
-   MOBILE
-========================= */
+/* ==========================================
+   TELEFON
+========================================== */
 
 @media (max-width: 600px) {
 
@@ -417,7 +406,7 @@ body {
 
     .chart-wrapper {
 
-        height: 260px;
+        height: 320px;
 
     }
 
@@ -441,13 +430,11 @@ body {
 <div class="container">
 
 
-<!-- =========================
+<!-- ==========================================
      HEADER
-========================= -->
-
+========================================== -->
 
 <div class="header">
-
 
     <h1>
         SPCXB / USDT
@@ -469,29 +456,25 @@ body {
         ● Łączenie z BingX...
     </div>
 
-
 </div>
 
 
 
-<!-- =========================
-     GRID
-========================= -->
-
+<!-- ==========================================
+     SIATKA
+========================================== -->
 
 <div
     class="grid"
     id="grid"
 >
-
 </div>
 
 
 
-<!-- =========================
-     STATS
-========================= -->
-
+<!-- ==========================================
+     STATYSTYKI
+========================================== -->
 
 <div class="stats">
 
@@ -548,10 +531,9 @@ body {
 
 
 
-<!-- =========================
-     CHART
-========================= -->
-
+<!-- ==========================================
+     WYKRES 30 DNI
+========================================== -->
 
 <div class="chart-box">
 
@@ -590,6 +572,7 @@ body {
             ---
         </span>
 
+
         <span id="chartEnd">
             ---
         </span>
@@ -601,18 +584,15 @@ body {
 
 
 
-<!-- =========================
-     LAST UPDATE
-========================= -->
-
+<!-- ==========================================
+     OSTATNIA AKTUALIZACJA
+========================================== -->
 
 <div
     class="last-update"
     id="lastUpdate"
 >
-
     Oczekiwanie na dane...
-
 </div>
 
 
@@ -623,13 +603,9 @@ body {
 <script>
 
 
-/*
-==================================================
-STAŁA SIATKA
-==================================================
-
-CENY NIGDY NIE SĄ AUTOMATYCZNIE ZMIENIANE.
-*/
+/* ==========================================
+   STAŁA SIATKA
+========================================== */
 
 
 const GRID_LEVELS = [
@@ -697,11 +673,9 @@ const GRID_LEVELS = [
 ];
 
 
-/*
-==================================================
-BAZA
-==================================================
-*/
+/* ==========================================
+   BAZA
+========================================== */
 
 
 let selectedBase =
@@ -720,11 +694,9 @@ if (
 }
 
 
-/*
-==================================================
-CENA
-==================================================
-*/
+/* ==========================================
+   POBIERANIE CENY
+========================================== */
 
 
 async function getPrice() {
@@ -775,11 +747,9 @@ async function getPrice() {
 }
 
 
-/*
-==================================================
-FORMAT CENY
-==================================================
-*/
+/* ==========================================
+   FORMAT CENY
+========================================== */
 
 
 function formatPrice(
@@ -792,11 +762,9 @@ function formatPrice(
 }
 
 
-/*
-==================================================
-USTAW BAZĘ
-==================================================
-*/
+/* ==========================================
+   ZMIANA BAZY
+========================================== */
 
 
 function setBase(
@@ -821,14 +789,29 @@ function setBase(
         window.lastPrice
     );
 
+
+    /*
+    Od razu odświeżamy wykres,
+    żeby złota linia BAZY
+    przeskoczyła na nowy poziom.
+    */
+
+    if (
+        window.chartData
+    ) {
+
+        drawChart(
+            window.chartData
+        );
+
+    }
+
 }
 
 
-/*
-==================================================
-DODAJ POZIOM
-==================================================
-*/
+/* ==========================================
+   DODANIE POZIOMU
+========================================== */
 
 
 function addLevel(
@@ -958,11 +941,9 @@ function addLevel(
 }
 
 
-/*
-==================================================
-AKTUALNA CENA W SIATCE
-==================================================
-*/
+/* ==========================================
+   AKTUALNA CENA W SIATCE
+========================================== */
 
 
 function createCurrentPrice(
@@ -1017,11 +998,9 @@ function createCurrentPrice(
 }
 
 
-/*
-==================================================
-TWORZENIE SIATKI
-==================================================
-*/
+/* ==========================================
+   RYSOWANIE SIATKI
+========================================== */
 
 
 function renderGrid(
@@ -1135,10 +1114,9 @@ function renderGrid(
     }
 
 
-    /*
-    NAJBLIŻSZY BUY
-    */
-
+    /* ======================================
+       NAJBLIŻSZY BUY
+    ====================================== */
 
     const buys =
         levels
@@ -1168,10 +1146,9 @@ function renderGrid(
             : "---";
 
 
-    /*
-    NAJBLIŻSZY SELL
-    */
-
+    /* ======================================
+       NAJBLIŻSZY SELL
+    ====================================== */
 
     const sells =
         levels
@@ -1201,10 +1178,9 @@ function renderGrid(
             : "---";
 
 
-    /*
-    BAZA
-    */
-
+    /* ======================================
+       AKTUALNA BAZA
+    ====================================== */
 
     document.getElementById(
         "currentBase"
@@ -1218,11 +1194,9 @@ function renderGrid(
 }
 
 
-/*
-==================================================
-AKTUALIZACJA CENY
-==================================================
-*/
+/* ==========================================
+   AKTUALIZACJA CENY
+========================================== */
 
 
 async function update() {
@@ -1267,6 +1241,23 @@ async function update() {
             "status";
 
 
+        /*
+        Aktualizujemy również
+        niebieską linię aktualnej
+        ceny na wykresie.
+        */
+
+        if (
+            window.chartData
+        ) {
+
+            drawChart(
+                window.chartData
+            );
+
+        }
+
+
         const now =
             new Date();
 
@@ -1309,11 +1300,9 @@ async function update() {
 }
 
 
-/*
-==================================================
-HISTORIA 30 DNI
-==================================================
-*/
+/* ==========================================
+   HISTORIA 30 DNI
+========================================== */
 
 
 async function getHistory() {
@@ -1346,7 +1335,6 @@ async function getHistory() {
 
 
     if (
-        !data ||
         !Array.isArray(data)
     ) {
 
@@ -1362,11 +1350,9 @@ async function getHistory() {
 }
 
 
-/*
-==================================================
-RYSOWANIE WYKRESU
-==================================================
-*/
+/* ==========================================
+   RYSOWANIE WYKRESU
+========================================== */
 
 
 function drawChart(
@@ -1417,25 +1403,17 @@ function drawChart(
         rect.height;
 
 
-    /*
-    MARGINESY
-    */
+    /* ======================================
+       MARGINESY
+    ====================================== */
 
+    const left = 48;
 
-    const left =
-        48;
+    const right = 55;
 
+    const top = 15;
 
-    const right =
-        12;
-
-
-    const top =
-        15;
-
-
-    const bottom =
-        28;
+    const bottom = 28;
 
 
     const chartWidth =
@@ -1450,12 +1428,23 @@ function drawChart(
         bottom;
 
 
-    /*
-    CENY
-    */
+    /* ======================================
+       ZAKRES CENOWY
+       
+       Bierzemy pod uwagę:
+       - całą siatkę
+       - historię
+       - aktualną cenę
+    ====================================== */
+
+    const gridPrices =
+        GRID_LEVELS.map(
+            level =>
+                Number(level.price)
+        );
 
 
-    const prices =
+    const historyPrices =
         data.map(
             item =>
                 Number(item.close)
@@ -1464,25 +1453,49 @@ function drawChart(
 
     let minPrice =
         Math.min(
-            ...prices
+            ...gridPrices,
+            ...historyPrices
         );
 
 
     let maxPrice =
         Math.max(
-            ...prices
+            ...gridPrices,
+            ...historyPrices
         );
 
 
+    if (
+        window.lastPrice
+    ) {
+
+        minPrice =
+            Math.min(
+                minPrice,
+                Number(window.lastPrice)
+            );
+
+
+        maxPrice =
+            Math.max(
+                maxPrice,
+                Number(window.lastPrice)
+            );
+
+    }
+
+
     /*
-    Dodajemy trochę miejsca
-    nad i pod wykresem.
+    5% wolnego miejsca
     */
 
-
     const padding =
-        (maxPrice - minPrice)
-        * 0.08;
+        (
+            maxPrice -
+            minPrice
+        )
+        *
+        0.05;
 
 
     minPrice -=
@@ -1493,10 +1506,9 @@ function drawChart(
         padding;
 
 
-    /*
-    TŁO
-    */
-
+    /* ======================================
+       CZYSZCZENIE
+    ====================================== */
 
     ctx.clearRect(
         0,
@@ -1506,10 +1518,9 @@ function drawChart(
     );
 
 
-    /*
-    SIATKA POZIOMA
-    */
-
+    /* ======================================
+       POZIOME LINIE SKALI
+    ====================================== */
 
     ctx.strokeStyle =
         "#30363d";
@@ -1528,7 +1539,7 @@ function drawChart(
 
 
     const gridCount =
-        5;
+        6;
 
 
     for (
@@ -1591,23 +1602,18 @@ function drawChart(
     }
 
 
-    /*
-    LINIE SIATKI TRADINGOWEJ
-    */
-
+    /* ======================================
+       TWOJA SIATKA
+    ====================================== */
 
     GRID_LEVELS.forEach(
         level => {
 
 
-            if (
-                level.price < minPrice ||
-                level.price > maxPrice
-            ) {
-
-                return;
-
-            }
+            const price =
+                Number(
+                    level.price
+                );
 
 
             const y =
@@ -1615,7 +1621,7 @@ function drawChart(
                 (
                     (
                         maxPrice -
-                        level.price
+                        price
                     )
                     /
                     (
@@ -1627,28 +1633,46 @@ function drawChart(
                 chartHeight;
 
 
+            /*
+            Linia przerywana
+            */
+
             ctx.setLineDash(
-                [5, 5]
+                [6, 5]
             );
 
 
             ctx.lineWidth =
-                1;
+                1.2;
 
+
+            /*
+            KOLOR
+            */
 
             if (
+                price ===
+                Number(selectedBase)
+            ) {
+
+                ctx.strokeStyle =
+                    "rgba(210,153,34,0.90)";
+
+            }
+
+            else if (
                 level.type === "BUY"
             ) {
 
                 ctx.strokeStyle =
-                    "rgba(248,81,73,0.45)";
+                    "rgba(248,81,73,0.50)";
 
             }
 
             else {
 
                 ctx.strokeStyle =
-                    "rgba(63,185,80,0.45)";
+                    "rgba(63,185,80,0.50)";
 
             }
 
@@ -1674,83 +1698,73 @@ function drawChart(
             ctx.setLineDash([]);
 
 
-            ctx.fillStyle =
-                level.type === "BUY"
-                    ? "#f85149"
-                    : "#3fb950";
-
-
-            ctx.fillText(
-
-                level.price.toFixed(2),
-
-                width - 44,
-
-                y - 4
-
-            );
-
-        }
-    );
-
-
-    /*
-    LINIA CENY
-    */
-
-
-    ctx.beginPath();
-
-
-    data.forEach(
-        (item, index) => {
-
-
-            const x =
-                left +
-                (
-                    index /
-                    (
-                        data.length - 1
-                    )
-                )
-                *
-                chartWidth;
-
-
-            const y =
-                top +
-                (
-                    (
-                        maxPrice -
-                        Number(item.close)
-                    )
-                    /
-                    (
-                        maxPrice -
-                        minPrice
-                    )
-                )
-                *
-                chartHeight;
-
+            /*
+            Kolor ceny
+            */
 
             if (
-                index === 0
+                price ===
+                Number(selectedBase)
             ) {
 
-                ctx.moveTo(
-                    x,
-                    y
-                );
+                ctx.fillStyle =
+                    "#d29922";
+
+            }
+
+            else if (
+                level.type === "BUY"
+            ) {
+
+                ctx.fillStyle =
+                    "#f85149";
 
             }
 
             else {
 
-                ctx.lineTo(
-                    x,
-                    y
+                ctx.fillStyle =
+                    "#3fb950";
+
+            }
+
+
+            ctx.font =
+                "bold 11px Arial";
+
+
+            /*
+            Cena po prawej
+            */
+
+            ctx.fillText(
+
+                price.toFixed(2),
+
+                width - 42,
+
+                y - 5
+
+            );
+
+
+            /*
+            BAZA
+            */
+
+            if (
+                price ===
+                Number(selectedBase)
+            ) {
+
+                ctx.fillText(
+
+                    "BAZA",
+
+                    left + 5,
+
+                    y - 5
+
                 );
 
             }
@@ -1759,21 +1773,91 @@ function drawChart(
     );
 
 
-    ctx.strokeStyle =
-        "#58a6ff";
+    /* ======================================
+       LINIA HISTORYCZNEJ CENY
+    ====================================== */
+
+    if (
+        data.length > 1
+    ) {
 
 
-    ctx.lineWidth =
-        2;
+        ctx.beginPath();
 
 
-    ctx.stroke();
+        data.forEach(
+            (item, index) => {
 
 
-    /*
-    AKTUALNA CENA
-    */
+                const x =
+                    left +
+                    (
+                        index /
+                        (
+                            data.length - 1
+                        )
+                    )
+                    *
+                    chartWidth;
 
+
+                const y =
+                    top +
+                    (
+                        (
+                            maxPrice -
+                            Number(item.close)
+                        )
+                        /
+                        (
+                            maxPrice -
+                            minPrice
+                        )
+                    )
+                    *
+                    chartHeight;
+
+
+                if (
+                    index === 0
+                ) {
+
+                    ctx.moveTo(
+                        x,
+                        y
+                    );
+
+                }
+
+                else {
+
+                    ctx.lineTo(
+                        x,
+                        y
+                    );
+
+                }
+
+            }
+        );
+
+
+        ctx.strokeStyle =
+            "#58a6ff";
+
+
+        ctx.lineWidth =
+            2;
+
+
+        ctx.stroke();
+
+    }
+
+
+    /* ======================================
+       AKTUALNA CENA
+    ====================================== */
 
     if (
         window.lastPrice
@@ -1786,93 +1870,91 @@ function drawChart(
             );
 
 
-        if (
-            current >= minPrice &&
-            current <= maxPrice
-        ) {
-
-
-            const y =
-                top +
+        const y =
+            top +
+            (
                 (
-                    (
-                        maxPrice -
-                        current
-                    )
-                    /
-                    (
-                        maxPrice -
-                        minPrice
-                    )
+                    maxPrice -
+                    current
                 )
-                *
-                chartHeight;
+                /
+                (
+                    maxPrice -
+                    minPrice
+                )
+            )
+            *
+            chartHeight;
 
 
-            ctx.setLineDash(
-                [4, 4]
-            );
+        /*
+        Niebieska linia
+        */
+
+        ctx.setLineDash(
+            [4, 4]
+        );
 
 
-            ctx.strokeStyle =
-                "#58a6ff";
+        ctx.strokeStyle =
+            "#58a6ff";
 
 
-            ctx.lineWidth =
-                1;
+        ctx.lineWidth =
+            1.2;
 
 
-            ctx.beginPath();
+        ctx.beginPath();
 
 
-            ctx.moveTo(
-                left,
-                y
-            );
+        ctx.moveTo(
+            left,
+            y
+        );
 
 
-            ctx.lineTo(
-                width - right,
-                y
-            );
+        ctx.lineTo(
+            width - right,
+            y
+        );
 
 
-            ctx.stroke();
+        ctx.stroke();
 
 
-            ctx.setLineDash([]);
+        ctx.setLineDash([]);
 
 
-            ctx.fillStyle =
-                "#58a6ff";
+        /*
+        Cena aktualna
+        */
+
+        ctx.fillStyle =
+            "#58a6ff";
 
 
-            ctx.font =
-                "bold 11px Arial";
+        ctx.font =
+            "bold 11px Arial";
 
 
-            ctx.fillText(
+        ctx.fillText(
 
-                current.toFixed(2),
+            current.toFixed(2),
 
-                width - 44,
+            width - 42,
 
-                y - 5
+            y - 5
 
-            );
-
-        }
+        );
 
     }
 
 }
 
 
-/*
-==================================================
-ŁADOWANIE HISTORII
-==================================================
-*/
+/* ==========================================
+   ŁADOWANIE WYKRESU
+========================================== */
 
 
 async function loadChart() {
@@ -1915,7 +1997,6 @@ async function loadChart() {
         DATY
         */
 
-
         const first =
             new Date(
                 data[0].time
@@ -1947,7 +2028,6 @@ async function loadChart() {
         status.textContent =
             "● HISTORIA BINGX";
 
-
     }
 
 
@@ -1967,11 +2047,9 @@ async function loadChart() {
 }
 
 
-/*
-==================================================
-START
-==================================================
-*/
+/* ==========================================
+   START
+========================================== */
 
 
 update();
@@ -1980,11 +2058,9 @@ update();
 loadChart();
 
 
-/*
-==================================================
-CENA CO 2 SEKUNDY
-==================================================
-*/
+/* ==========================================
+   CENA CO 2 SEKUNDY
+========================================== */
 
 
 setInterval(
@@ -1996,14 +2072,9 @@ setInterval(
 );
 
 
-/*
-==================================================
-ODŚWIEŻANIE WYKRESU
-==================================================
-
-Co 5 minut pobieramy ponownie
-historię.
-*/
+/* ==========================================
+   HISTORIA CO 5 MINUT
+========================================== */
 
 
 setInterval(
@@ -2015,12 +2086,9 @@ setInterval(
 );
 
 
-/*
-==================================================
-PRZERYWASOWANIE WYKRESU
-PO ZMIANIE OKNA
-==================================================
-*/
+/* ==========================================
+   ZMIANA ROZMIARU OKNA
+========================================== */
 
 
 window.addEventListener(

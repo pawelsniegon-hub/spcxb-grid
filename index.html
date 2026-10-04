@@ -21,91 +21,64 @@
 
 
 body {
-
     margin: 0;
-
     background: #0d1117;
-
     color: #e6edf3;
-
-    font-family:
-        Arial,
-        sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 
 .container {
-
     max-width: 900px;
-
     margin: 35px auto;
-
     padding: 20px;
 }
 
 
 .header {
-
     text-align: center;
-
     margin-bottom: 30px;
 }
 
 
 .header h1 {
-
     margin: 0;
-
     font-size: 32px;
 }
 
 
 .price {
-
     font-size: 44px;
-
     font-weight: bold;
-
     margin-top: 10px;
 }
 
 
 .status {
-
     margin-top: 8px;
-
     color: #3fb950;
 }
 
 
 .status.error {
-
     color: #f85149;
 }
 
 
 .grid {
-
     background: #161b22;
-
     border: 1px solid #30363d;
-
     border-radius: 12px;
-
     padding: 20px;
 }
 
 
 .level {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     padding: 14px 18px;
-
     margin: 8px 0;
 
     border-radius: 8px;
@@ -117,44 +90,49 @@ body {
 
 
 .buy {
-
-    border-left:
-        5px solid #f85149;
+    border-left: 5px solid #f85149;
 }
 
 
 .sell {
+    border-left: 5px solid #3fb950;
+}
 
-    border-left:
-        5px solid #3fb950;
+
+.base {
+    border-left: 5px solid #d29922;
+    background: #252b32;
 }
 
 
 .current {
-
-    border:
-        2px solid #58a6ff;
-
+    border: 2px solid #58a6ff;
     background: #1f2937;
-
     font-weight: bold;
 }
 
 
 .type-buy {
-
     color: #f85149;
 }
 
 
 .type-sell {
-
     color: #3fb950;
 }
 
 
-.stats {
+.type-base {
+    color: #d29922;
+}
 
+
+.current-label {
+    color: #58a6ff;
+}
+
+
+.stats {
     display: grid;
 
     grid-template-columns:
@@ -167,11 +145,9 @@ body {
 
 
 .stat {
-
     background: #161b22;
 
-    border:
-        1px solid #30363d;
+    border: 1px solid #30363d;
 
     border-radius: 10px;
 
@@ -182,7 +158,6 @@ body {
 
 
 .stat-title {
-
     color: #8b949e;
 
     font-size: 14px;
@@ -192,7 +167,6 @@ body {
 
 
 .stat-value {
-
     font-size: 20px;
 
     font-weight: bold;
@@ -200,7 +174,6 @@ body {
 
 
 .last-update {
-
     text-align: center;
 
     color: #8b949e;
@@ -214,21 +187,15 @@ body {
 @media (max-width: 600px) {
 
     .container {
-
         margin: 10px auto;
-
         padding: 10px;
     }
 
-
     .stats {
-
         grid-template-columns: 1fr;
     }
 
-
     .price {
-
         font-size: 34px;
     }
 
@@ -246,7 +213,6 @@ body {
 
 
     <div class="header">
-
 
         <h1>
             SPCXB / USDT
@@ -268,7 +234,6 @@ body {
             ● Łączenie z BingX...
         </div>
 
-
     </div>
 
 
@@ -279,9 +244,9 @@ body {
     >
 
         <!--
-            Poziomy siatki
-            zostaną utworzone
-            automatycznie
+            STAŁA SIATKA
+            Cena z BingX zostanie
+            pokazana pomiędzy poziomami.
         -->
 
     </div>
@@ -297,12 +262,14 @@ body {
                 Krok siatki
             </div>
 
-            <div class="stat-value">
+            <div
+                class="stat-value"
+                id="gridStep"
+            >
                 4%
             </div>
 
         </div>
-
 
 
         <div class="stat">
@@ -319,7 +286,6 @@ body {
             </div>
 
         </div>
-
 
 
         <div class="stat">
@@ -359,44 +325,85 @@ body {
 
 /*
 ==================================================
-USTAWIENIA
+STAŁA SIATKA SPCXB
 ==================================================
+
+TE CENY NIE BĘDĄ SIĘ ZMIENIAĆ.
+
+Tylko aktualna cena z BingX będzie się zmieniać.
 */
 
 
-const GRID_STEP = 0.04;
+const GRID_LEVELS = [
 
+    {
+        price: 172.27,
+        type: "SELL"
+    },
 
-/*
-Ile poziomów BUY
-*/
+    {
+        price: 165.86,
+        type: "SELL"
+    },
 
+    {
+        price: 159.29,
+        type: "BASE"
+    },
 
-const LEVELS_BELOW = 6;
+    {
+        price: 153.00,
+        type: "BUY"
+    },
 
+    {
+        price: 146.73,
+        type: "BUY"
+    },
 
-/*
-Ile poziomów SELL
-*/
+    {
+        price: 140.70,
+        type: "BUY"
+    },
 
+    {
+        price: 135.10,
+        type: "BUY"
+    },
 
-const LEVELS_ABOVE = 2;
+    {
+        price: 129.33,
+        type: "BUY"
+    },
+
+    {
+        price: 123.73,
+        type: "BUY"
+    },
+
+    {
+        price: 118.75,
+        type: "BUY"
+    },
+
+    {
+        price: 113.52,
+        type: "BUY"
+    },
+
+    {
+        price: 108.38,
+        type: "BUY"
+    }
+
+];
 
 
 
 /*
 ==================================================
-POBIERANIE CENY
+POBIERANIE CENY Z BINGX
 ==================================================
-
-Przeglądarka nie łączy się bezpośrednio
-z BingX.
-
-Pyta nasz Cloudflare:
-
-/api/price
-
-Cloudflare pobiera cenę z BingX.
 */
 
 
@@ -450,7 +457,196 @@ async function getPrice() {
 
 /*
 ==================================================
-GENEROWANIE SIATKI
+FORMAT CENY
+==================================================
+*/
+
+
+function formatPrice(price) {
+
+    return Number(price)
+        .toFixed(2);
+
+}
+
+
+
+/*
+==================================================
+TWORZENIE POZIOMU
+==================================================
+*/
+
+
+function addLevel(
+    grid,
+    level
+) {
+
+
+    const element =
+        document.createElement(
+            "div"
+        );
+
+
+    /*
+    SELL
+    */
+
+
+    if (
+        level.type === "SELL"
+    ) {
+
+
+        element.className =
+            "level sell";
+
+
+        element.innerHTML = `
+
+            <span>
+                SELL
+            </span>
+
+            <strong>
+                ${formatPrice(level.price)}
+                USDT
+            </strong>
+
+            <span class="type-sell">
+                CEL
+            </span>
+
+        `;
+
+    }
+
+
+
+    /*
+    BASE
+    */
+
+
+    else if (
+        level.type === "BASE"
+    ) {
+
+
+        element.className =
+            "level base";
+
+
+        element.innerHTML = `
+
+            <span>
+                BAZA
+            </span>
+
+            <strong>
+                ${formatPrice(level.price)}
+                USDT
+            </strong>
+
+            <span class="type-base">
+                BAZA
+            </span>
+
+        `;
+
+    }
+
+
+
+    /*
+    BUY
+    */
+
+
+    else {
+
+
+        element.className =
+            "level buy";
+
+
+        element.innerHTML = `
+
+            <span>
+                BUY
+            </span>
+
+            <strong>
+                ${formatPrice(level.price)}
+                USDT
+            </strong>
+
+            <span class="type-buy">
+                CEL
+            </span>
+
+        `;
+
+    }
+
+
+    grid.appendChild(
+        element
+    );
+
+}
+
+
+
+/*
+==================================================
+AKTUALNA CENA
+==================================================
+*/
+
+
+function createCurrentPrice(price) {
+
+
+    const element =
+        document.createElement(
+            "div"
+        );
+
+
+    element.className =
+        "level current";
+
+
+    element.innerHTML = `
+
+        <span class="current-label">
+            ● TERAZ
+        </span>
+
+        <strong>
+            ${formatPrice(price)}
+            USDT
+        </strong>
+
+        <span>
+            LIVE
+        </span>
+
+    `;
+
+
+    return element;
+
+}
+
+
+
+/*
+==================================================
+TWORZENIE CAŁEJ SIATKI
 ==================================================
 */
 
@@ -467,121 +663,161 @@ function createGrid(price) {
     grid.innerHTML = "";
 
 
+    /*
+    ==============================================
+    USTALAMY NAJBLIŻSZY BUY
+    ==============================================
+    */
+
+
+    const buyLevels =
+        GRID_LEVELS
+            .filter(
+                level =>
+                    level.type === "BUY" &&
+                    level.price < price
+            )
+            .sort(
+                (a, b) =>
+                    b.price - a.price
+            );
+
 
     /*
     ==============================================
-    SELL
+    USTALAMY NAJBLIŻSZY SELL
+    ==============================================
+    */
+
+
+    const sellLevels =
+        GRID_LEVELS
+            .filter(
+                level =>
+                    level.type === "SELL" &&
+                    level.price > price
+            )
+            .sort(
+                (a, b) =>
+                    a.price - b.price
+            );
+
+
+    const nearestBuy =
+        buyLevels.length > 0
+            ? buyLevels[0].price
+            : null;
+
+
+    const nearestSell =
+        sellLevels.length > 0
+            ? sellLevels[0].price
+            : null;
+
+
+
+    /*
+    ==============================================
+    SIATKA
     ==============================================
     */
 
 
     for (
-        let i = LEVELS_ABOVE;
-        i >= 1;
-        i--
+        let i = 0;
+        i < GRID_LEVELS.length;
+        i++
     ) {
 
 
         const level =
-            price *
-            Math.pow(
-                1 + GRID_STEP,
-                i
-            );
+            GRID_LEVELS[i];
+
+
+        /*
+        Dodajemy poziom
+        */
 
 
         addLevel(
-
             grid,
+            level
+        );
 
-            "SELL",
 
-            level,
+        /*
+        Sprawdzamy, czy aktualna
+        cena znajduje się pomiędzy
+        tym poziomem i kolejnym.
+        */
 
-            "+" +
-            (i * 4) +
-            "%"
+
+        const nextLevel =
+            GRID_LEVELS[i + 1];
+
+
+        if (
+            nextLevel &&
+            price < level.price &&
+            price > nextLevel.price
+        ) {
+
+
+            grid.appendChild(
+                createCurrentPrice(
+                    price
+                )
+            );
+
+        }
+
+    }
+
+
+    /*
+    ==============================================
+    CENA PONAD NAJWYŻSZYM POZIOMEM
+    ==============================================
+    */
+
+
+    if (
+        price >
+        GRID_LEVELS[0].price
+    ) {
+
+        grid.insertBefore(
+
+            createCurrentPrice(
+                price
+            ),
+
+            grid.firstChild
 
         );
 
     }
 
 
-
     /*
     ==============================================
-    AKTUALNA CENA
+    CENA PONIŻEJ NAJNIŻSZEGO POZIOMU
     ==============================================
     */
 
 
-    const current =
-        document.createElement(
-            "div"
-        );
-
-
-    current.className =
-        "level current";
-
-
-    current.innerHTML = `
-
-        <span>
-            ● TERAZ
-        </span>
-
-        <strong>
-            ${formatPrice(price)}
-            USDT
-        </strong>
-
-        <span>
-            ---
-        </span>
-
-    `;
-
-
-    grid.appendChild(
-        current
-    );
-
-
-
-    /*
-    ==============================================
-    BUY
-    ==============================================
-    */
-
-
-    for (
-        let i = 1;
-        i <= LEVELS_BELOW;
-        i++
+    if (
+        price <
+        GRID_LEVELS[
+            GRID_LEVELS.length - 1
+        ].price
     ) {
 
+        grid.appendChild(
 
-        const level =
-            price *
-            Math.pow(
-                1 - GRID_STEP,
-                i
-            );
-
-
-        addLevel(
-
-            grid,
-
-            "BUY",
-
-            level,
-
-            "-" +
-            (i * 4) +
-            "%"
+            createCurrentPrice(
+                price
+            )
 
         );
 
@@ -596,17 +832,13 @@ function createGrid(price) {
     */
 
 
-    const nearestBuy =
-        price *
-        (1 - GRID_STEP);
-
-
     document.getElementById(
         "nearestBuy"
     ).textContent =
-        formatPrice(
-            nearestBuy
-        );
+
+        nearestBuy !== null
+            ? formatPrice(nearestBuy)
+            : "---";
 
 
 
@@ -617,100 +849,13 @@ function createGrid(price) {
     */
 
 
-    const nearestSell =
-        price *
-        (1 + GRID_STEP);
-
-
     document.getElementById(
         "nearestSell"
     ).textContent =
-        formatPrice(
-            nearestSell
-        );
 
-}
-
-
-
-/*
-==================================================
-DODANIE POZIOMU
-==================================================
-*/
-
-
-function addLevel(
-
-    grid,
-
-    type,
-
-    price,
-
-    percentage
-
-) {
-
-
-    const level =
-        document.createElement(
-            "div"
-        );
-
-
-    level.className =
-        "level " +
-        (
-            type === "BUY"
-                ? "buy"
-                : "sell"
-        );
-
-
-    level.innerHTML = `
-
-        <span>
-            ${type}
-        </span>
-
-        <strong>
-            ${formatPrice(price)}
-            USDT
-        </strong>
-
-        <span
-            class="${
-                type === "BUY"
-                    ? "type-buy"
-                    : "type-sell"
-            }"
-        >
-            ${percentage}
-        </span>
-
-    `;
-
-
-    grid.appendChild(
-        level
-    );
-
-}
-
-
-
-/*
-==================================================
-FORMAT CENY
-==================================================
-*/
-
-
-function formatPrice(price) {
-
-    return Number(price)
-        .toFixed(2);
+        nearestSell !== null
+            ? formatPrice(nearestSell)
+            : "---";
 
 }
 
@@ -736,7 +881,7 @@ async function update() {
 
 
         /*
-        Pobierz aktualną cenę
+        Pobieramy prawdziwą cenę
         */
 
 
@@ -744,9 +889,8 @@ async function update() {
             await getPrice();
 
 
-
         /*
-        Cena główna
+        Wyświetlamy cenę
         */
 
 
@@ -759,16 +903,14 @@ async function update() {
             " USDT";
 
 
-
         /*
-        Utwórz siatkę
+        Budujemy stałą siatkę
         */
 
 
         createGrid(
             price
         );
-
 
 
         /*
@@ -784,9 +926,8 @@ async function update() {
             "status";
 
 
-
         /*
-        Czas aktualizacji
+        Czas
         */
 
 
@@ -803,9 +944,10 @@ async function update() {
             now.toLocaleTimeString();
 
 
+    }
 
 
-    } catch (error) {
+    catch (error) {
 
 
         console.error(
@@ -835,7 +977,7 @@ async function update() {
 
 /*
 ==================================================
-PIERWSZE POBRANIE
+START
 ==================================================
 */
 

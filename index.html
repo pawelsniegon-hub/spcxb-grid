@@ -1,1074 +1,435 @@
 <!DOCTYPE html>
 <html lang="pl">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>SPCXB Grid</title>
-
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-
-body {
-    margin: 0;
-    background: #0d1117;
-    color: #e6edf3;
-    font-family: Arial, sans-serif;
-}
-
-
-.container {
-    max-width: 900px;
-    margin: 25px auto;
-    padding: 15px;
-}
-
-
-/* ==========================================
-   HEADER
-========================================== */
-
-.header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-
-.header h1 {
-    margin: 0;
-    font-size: 32px;
-}
-
-
-.price {
-    font-size: 44px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-
-.status {
-    margin-top: 8px;
-    color: #3fb950;
-}
-
-
-.status.error {
-    color: #f85149;
-}
-
-
-/* ==========================================
-   GRID
-========================================== */
-
-.grid {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 12px;
-    padding: 15px;
-}
-
-
-.level {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    padding: 12px 14px;
-    margin: 7px 0;
-
-    border-radius: 8px;
-
-    background: #21262d;
-
-    font-size: 17px;
-}
-
-
-.level-left {
-    width: 70px;
-    flex-shrink: 0;
-}
-
-
-.level-price {
-    flex: 1;
-    text-align: center;
-}
-
-
-.level-action {
-    width: 130px;
-    text-align: right;
-}
-
-
-.buy {
-    border-left: 5px solid #f85149;
-}
-
-
-.sell {
-    border-left: 5px solid #3fb950;
-}
-
-
-.base {
-    border-left: 5px solid #d29922;
-    background: #2a2518;
-}
-
-
-.current {
-    border: 2px solid #58a6ff;
-    background: #1f2937;
-    font-weight: bold;
-}
-
-
-.type-buy {
-    color: #f85149;
-}
-
-
-.type-sell {
-    color: #3fb950;
-}
-
-
-.current-label {
-    color: #58a6ff;
-}
-
-
-.base-button {
-    background: #30363d;
-
-    color: #e6edf3;
-
-    border: 1px solid #484f58;
-
-    border-radius: 6px;
-
-    padding: 7px 9px;
-
-    cursor: pointer;
-
-    font-size: 12px;
-
-    white-space: nowrap;
-}
-
-
-.base-button:hover {
-    background: #484f58;
-}
-
-
-.current-base {
-    color: #d29922;
-
-    font-weight: bold;
-
-    font-size: 12px;
-}
-
-
-/* ==========================================
-   STATYSTYKI
-========================================== */
-
-.stats {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 10px;
-
-    margin-top: 15px;
-}
-
-
-.stat {
-    background: #161b22;
-
-    border: 1px solid #30363d;
-
-    border-radius: 10px;
-
-    padding: 15px;
-
-    text-align: center;
-}
-
-
-.stat-title {
-    color: #8b949e;
-
-    font-size: 13px;
-
-    margin-bottom: 7px;
-}
-
-
-.stat-value {
-    font-size: 19px;
-
-    font-weight: bold;
-}
-
-
-/* ==========================================
-   WYKRES
-========================================== */
-
-.chart-box {
-
-    margin-top: 25px;
-
-    background: #161b22;
-
-    border: 1px solid #30363d;
-
-    border-radius: 12px;
-
-    padding: 15px;
-
-}
-
-
-.chart-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 10px;
-
-}
-
-
-.chart-title {
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-}
-
-
-.chart-status {
-
-    font-size: 12px;
-
-    color: #8b949e;
-
-}
-
-
-.chart-wrapper {
-
-    width: 100%;
-
-    height: 400px;
-
-    position: relative;
-
-}
-
-
-#chart {
-
-    width: 100%;
-
-    height: 100%;
-
-    display: block;
-
-}
-
-
-.chart-info {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-top: 8px;
-
-    color: #8b949e;
-
-    font-size: 11px;
-
-}
-
-
-/* ==========================================
-   OSTATNIA AKTUALIZACJA
-========================================== */
-
-.last-update {
-
-    text-align: center;
-
-    color: #8b949e;
-
-    margin-top: 18px;
-
-    font-size: 12px;
-}
-
-
-/* ==========================================
-   TELEFON
-========================================== */
-
-@media (max-width: 600px) {
-
-    .container {
-
-        margin: 5px auto;
-
-        padding: 8px;
-
-    }
-
-
-    .header h1 {
-
-        font-size: 26px;
-
-    }
-
-
-    .price {
-
-        font-size: 34px;
-
-    }
-
-
-    .level {
-
-        font-size: 15px;
-
-        padding: 11px 8px;
-
-        gap: 5px;
-
-    }
-
-
-    .level-left {
-
-        width: 45px;
-
-    }
-
-
-    .level-action {
-
-        width: 100px;
-
-    }
-
-
-    .base-button {
-
-        font-size: 10px;
-
-        padding: 6px 5px;
-
-    }
-
-
-    .stats {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .chart-wrapper {
-
-        height: 320px;
-
-    }
-
-
-    .chart-title {
-
-        font-size: 16px;
-
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPCXB / USDT</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0d1117;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 25px 15px 50px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .price {
+            text-align: center;
+            font-size: 46px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 8px;
+            color: #35d35c;
+            font-size: 17px;
+        }
+
+        .grid-box {
+            margin-top: 28px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .level {
+            min-height: 64px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 120px;
+            align-items: center;
+            padding: 0 14px;
+            font-size: 17px;
+            font-weight: bold;
+            background: #20262e;
+            border-left: 5px solid #555;
+        }
+
+        .level:last-child {
+            margin-bottom: 0;
+        }
+
+        .level-label {
+            text-align: left;
+        }
+
+        .level-price {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .level-action {
+            text-align: right;
+        }
+
+        .buy {
+            border-left-color: #ff4545;
+        }
+
+        .buy .level-label {
+            color: #ff4545;
+        }
+
+        .sell {
+            border-left-color: #32c85b;
+        }
+
+        .sell .level-label {
+            color: #32c85b;
+        }
+
+        .base {
+            border-left-color: #e7a900;
+            background: #2b271a;
+        }
+
+        .base .level-label {
+            color: #e7a900;
+        }
+
+        .base .level-price {
+            color: #ffffff;
+        }
+
+        .base-badge {
+            color: #e7a900;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+
+        button {
+            background: #303740;
+            border: 1px solid #4b5560;
+            color: white;
+            border-radius: 6px;
+            padding: 8px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #3c4652;
+        }
+
+        .live {
+            border: 2px solid #4095ff;
+            background: #202b3b;
+        }
+
+        .live .level-label {
+            color: #4095ff;
+        }
+
+        .live-price {
+            color: #ffffff;
+        }
+
+        .chart-box {
+            margin-top: 25px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .chart-status {
+            text-align: center;
+            color: #35d35c;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 15px 8px 35px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .price {
+                font-size: 35px;
+            }
+
+            .status {
+                font-size: 15px;
+            }
+
+            .grid-box {
+                padding: 10px;
+            }
+
+            .level {
+                min-height: 58px;
+                grid-template-columns: 1fr 1fr 95px;
+                padding: 0 9px;
+                font-size: 14px;
+            }
+
+            .level-price {
+                font-size: 15px;
+            }
+
+            button {
+                padding: 7px 7px;
+                font-size: 10px;
+            }
+
+            .chart-container {
+                height: 320px;
+            }
+
+        }
+
+    </style>
 </head>
-
 
 <body>
 
-
 <div class="container">
 
+    <h1>SPCXB / USDT</h1>
 
-<!-- ==========================================
-     HEADER
-========================================== -->
-
-<div class="header">
-
-    <h1>
-        SPCXB / USDT
-    </h1>
-
-
-    <div
-        class="price"
-        id="currentPrice"
-    >
-        Ładowanie...
+    <div id="currentPrice" class="price">
+        --.-- USDT
     </div>
 
-
-    <div
-        class="status"
-        id="status"
-    >
+    <div id="status" class="status">
         ● Łączenie z BingX...
     </div>
 
-</div>
 
+    <div class="grid-box">
 
-
-<!-- ==========================================
-     SIATKA
-========================================== -->
-
-<div
-    class="grid"
-    id="grid"
->
-</div>
-
-
-
-<!-- ==========================================
-     STATYSTYKI
-========================================== -->
-
-<div class="stats">
-
-
-    <div class="stat">
-
-        <div class="stat-title">
-            USTAWIONA BAZA
-        </div>
-
-        <div
-            class="stat-value"
-            id="currentBase"
-        >
-            ---
-        </div>
+        <div id="grid"></div>
 
     </div>
 
 
-    <div class="stat">
-
-        <div class="stat-title">
-            NAJBLIŻSZY BUY
-        </div>
-
-        <div
-            class="stat-value"
-            id="nearestBuy"
-        >
-            ---
-        </div>
-
-    </div>
-
-
-    <div class="stat">
-
-        <div class="stat-title">
-            NAJBLIŻSZY SELL
-        </div>
-
-        <div
-            class="stat-value"
-            id="nearestSell"
-        >
-            ---
-        </div>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- ==========================================
-     WYKRES 30 DNI
-========================================== -->
-
-<div class="chart-box">
-
-
-    <div class="chart-header">
-
+    <div class="chart-box">
 
         <div class="chart-title">
-            SPCXB — OSTATNIE 30 DNI
+            SPCXB — HISTORIA 30 DNI
         </div>
 
-
-        <div
-            class="chart-status"
-            id="chartStatus"
-        >
-            Ładowanie historii...
+        <div id="chartStatus" class="chart-status">
+            ● Ładowanie historii BingX...
         </div>
 
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
 
     </div>
 
-
-    <div class="chart-wrapper">
-
-        <canvas
-            id="chart"
-        ></canvas>
-
-    </div>
-
-
-    <div class="chart-info">
-
-        <span id="chartStart">
-            ---
-        </span>
-
-
-        <span id="chartEnd">
-            ---
-        </span>
-
-    </div>
-
-
 </div>
-
-
-
-<!-- ==========================================
-     OSTATNIA AKTUALIZACJA
-========================================== -->
-
-<div
-    class="last-update"
-    id="lastUpdate"
->
-    Oczekiwanie na dane...
-</div>
-
-
-</div>
-
 
 
 <script>
 
-
-/* ==========================================
-   STAŁA SIATKA
-========================================== */
-
-
-const GRID_LEVELS = [
-
-    {
-        price: 172.27,
-        type: "SELL"
-    },
-
-    {
-        price: 165.86,
-        type: "SELL"
-    },
-
-    {
-        price: 159.29,
-        type: "BASE"
-    },
-
-    {
-        price: 153.00,
-        type: "BUY"
-    },
-
-    {
-        price: 146.73,
-        type: "BUY"
-    },
-
-    {
-        price: 140.70,
-        type: "BUY"
-    },
-
-    {
-        price: 135.10,
-        type: "BUY"
-    },
-
-    {
-        price: 129.33,
-        type: "BUY"
-    },
-
-    {
-        price: 123.73,
-        type: "BUY"
-    },
-
-    {
-        price: 118.75,
-        type: "BUY"
-    },
-
-    {
-        price: 113.52,
-        type: "BUY"
-    },
-
-    {
-        price: 108.38,
-        type: "BUY"
-    }
-
-];
-
-
-/* ==========================================
-   BAZA
-========================================== */
-
-
-let selectedBase =
-    localStorage.getItem(
-        "spcxb_base"
-    );
-
-
-if (
-    selectedBase === null
-) {
-
-    selectedBase =
-        "159.29";
-
-}
-
-
-/* ==========================================
-   POBIERANIE CENY
-========================================== */
-
-
-async function getPrice() {
-
-
-    const response =
-        await fetch(
-
-            "/api/price",
-
-            {
-                cache: "no-store"
-            }
-
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "HTTP " +
-            response.status
-        );
-
-    }
-
-
-    const json =
-        await response.json();
-
-
-    if (
-        !json.price ||
-        isNaN(json.price)
-    ) {
-
-        throw new Error(
-            "Brak ceny"
-        );
-
-    }
-
-
-    return Number(
-        json.price
-    );
-
-}
-
-
-/* ==========================================
-   FORMAT CENY
-========================================== */
-
-
-function formatPrice(
-    price
-) {
-
-    return Number(price)
-        .toFixed(2);
-
-}
-
-
-/* ==========================================
-   ZMIANA BAZY
-========================================== */
-
-
-function setBase(
-    price
-) {
-
-
-    selectedBase =
-        String(price);
-
-
-    localStorage.setItem(
-
-        "spcxb_base",
-
-        selectedBase
-
-    );
-
-
-    renderGrid(
-        window.lastPrice
-    );
+    /*
+        STAŁE POZIOMY GRIDU
+
+        CENY SIĘ NIGDY NIE ZMIENIAJĄ.
+
+        Po wybraniu nowej bazy:
+        - wszystko powyżej bazy = SELL
+        - baza = BAZA
+        - wszystko poniżej bazy = BUY
+    */
+
+    const GRID_LEVELS = [
+
+        { price: 172.27 },
+        { price: 165.86 },
+        { price: 159.29 },
+        { price: 153.00 },
+        { price: 146.73 },
+        { price: 140.70 },
+        { price: 135.10 },
+        { price: 129.33 },
+        { price: 123.73 },
+        { price: 118.75 },
+        { price: 113.52 },
+        { price: 108.38 }
+
+    ];
 
 
     /*
-    Od razu odświeżamy wykres,
-    żeby złota linia BAZY
-    przeskoczyła na nowy poziom.
+        DOMYŚLNA BAZA
     */
 
-    if (
-        window.chartData
-    ) {
+    let selectedBase =
+        localStorage.getItem("spcxb_base") || "159.29";
 
-        drawChart(
-            window.chartData
+
+    /*
+        SPRAWDZAMY, CZY ZAPISANA BAZA
+        FAKTYCZNIE ISTNIEJE NA LIŚCIE.
+    */
+
+    const validBase =
+        GRID_LEVELS.some(
+            level =>
+                Number(level.price).toFixed(2) ===
+                Number(selectedBase).toFixed(2)
+        );
+
+
+    if (!validBase) {
+
+        selectedBase = "159.29";
+
+        localStorage.setItem(
+            "spcxb_base",
+            selectedBase
         );
 
     }
 
-}
+
+    /*
+        ZMIENNA NA AKTUALNĄ CENĘ
+    */
+
+    window.lastPrice = null;
 
 
-/* ==========================================
-   DODANIE POZIOMU
-========================================== */
+    /*
+        ZMIENNA NA DANE WYKRESU
+    */
+
+    window.chartData = null;
 
 
-function addLevel(
-    grid,
-    level
-) {
+    /*
+        OBIEKT WYKRESU
+    */
+
+    let priceChart = null;
 
 
-    const element =
-        document.createElement(
-            "div"
-        );
+    /*
+        FORMATOWANIE CENY
+    */
 
+    function formatPrice(price) {
 
-    const isBase =
-        Number(level.price) ===
-        Number(selectedBase);
-
-
-    if (isBase) {
-
-        element.className =
-            "level base";
-
-    }
-
-    else if (
-        level.type === "SELL"
-    ) {
-
-        element.className =
-            "level sell";
-
-    }
-
-    else {
-
-        element.className =
-            "level buy";
+        return Number(price).toFixed(2);
 
     }
 
 
-    let leftText =
-        level.type;
+    /*
+        USTALAMY TYP POZIOMU
+    */
 
+    function getLevelType(price) {
 
-    if (isBase) {
+        const p =
+            Number(price);
 
-        leftText =
-            "BAZA";
-
-    }
-
-
-    let buttonHTML;
-
-
-    if (isBase) {
-
-        buttonHTML = `
-
-            <span class="current-base">
-                ★ BAZA
-            </span>
-
-        `;
-
-    }
-
-    else {
-
-        buttonHTML = `
-
-            <button
-                class="base-button"
-                onclick="setBase(${level.price})"
-            >
-                USTAW BAZĘ
-            </button>
-
-        `;
-
-    }
-
-
-    element.innerHTML = `
-
-        <div class="level-left">
-
-            <span class="${
-                level.type === "BUY"
-                    ? "type-buy"
-                    : "type-sell"
-            }">
-
-                ${leftText}
-
-            </span>
-
-        </div>
-
-
-        <div class="level-price">
-
-            <strong>
-                ${formatPrice(level.price)}
-                USDT
-            </strong>
-
-        </div>
-
-
-        <div class="level-action">
-
-            ${buttonHTML}
-
-        </div>
-
-    `;
-
-
-    grid.appendChild(
-        element
-    );
-
-}
-
-
-/* ==========================================
-   AKTUALNA CENA W SIATCE
-========================================== */
-
-
-function createCurrentPrice(
-    price
-) {
-
-
-    const element =
-        document.createElement(
-            "div"
-        );
-
-
-    element.className =
-        "level current";
-
-
-    element.innerHTML = `
-
-        <div class="level-left">
-
-            <span class="current-label">
-                ● TERAZ
-            </span>
-
-        </div>
-
-
-        <div class="level-price">
-
-            <strong>
-                ${formatPrice(price)}
-                USDT
-            </strong>
-
-        </div>
-
-
-        <div class="level-action">
-
-            <span>
-                LIVE
-            </span>
-
-        </div>
-
-    `;
-
-
-    return element;
-
-}
-
-
-/* ==========================================
-   RYSOWANIE SIATKI
-========================================== */
-
-
-function renderGrid(
-    price
-) {
-
-
-    if (
-        price === null ||
-        price === undefined
-    ) {
-
-        return;
-
-    }
-
-
-    const grid =
-        document.getElementById(
-            "grid"
-        );
-
-
-    grid.innerHTML = "";
-
-
-    const levels =
-        [...GRID_LEVELS]
-            .sort(
-                (a, b) =>
-                    b.price - a.price
-            );
-
-
-    for (
-        let i = 0;
-        i < levels.length;
-        i++
-    ) {
-
-
-        const level =
-            levels[i];
-
-
-        addLevel(
-            grid,
-            level
-        );
-
-
-        const nextLevel =
-            levels[i + 1];
+        const base =
+            Number(selectedBase);
 
 
         if (
-            nextLevel &&
-            price < level.price &&
-            price > nextLevel.price
+            Math.abs(p - base) < 0.001
         ) {
 
+            return "BASE";
 
-            grid.appendChild(
+        }
 
-                createCurrentPrice(
-                    price
-                )
 
+        if (p > base) {
+
+            return "SELL";
+
+        }
+
+
+        return "BUY";
+
+    }
+
+
+    /*
+        USTAWIENIE NOWEJ BAZY
+    */
+
+    function setBase(price) {
+
+        selectedBase =
+            Number(price).toFixed(2);
+
+
+        localStorage.setItem(
+            "spcxb_base",
+            selectedBase
+        );
+
+
+        /*
+            OD RAZU PRZELICZAMY
+            WSZYSTKIE POZIOMY
+        */
+
+        renderGrid(
+            window.lastPrice
+        );
+
+
+        /*
+            OD RAZU AKTUALIZUJEMY WYKRES
+        */
+
+        if (window.chartData) {
+
+            drawChart(
+                window.chartData
             );
 
         }
@@ -1076,1044 +437,960 @@ function renderGrid(
     }
 
 
-    if (
-        price >
-        levels[0].price
-    ) {
+    /*
+        RYSOWANIE GRIDU
+    */
+
+    function renderGrid(currentPrice) {
+
+        const grid =
+            document.getElementById("grid");
 
 
-        grid.insertBefore(
-
-            createCurrentPrice(
-                price
-            ),
-
-            grid.firstChild
-
-        );
-
-    }
+        grid.innerHTML = "";
 
 
-    if (
-        price <
-        levels[
-            levels.length - 1
-        ].price
-    ) {
+        /*
+            SORTUJEMY OD NAJWYŻSZEJ CENY
+        */
 
-
-        grid.appendChild(
-
-            createCurrentPrice(
-                price
-            )
-
-        );
-
-    }
-
-
-    /* ======================================
-       NAJBLIŻSZY BUY
-    ====================================== */
-
-    const buys =
-        levels
-            .filter(
-                level =>
-                    level.type === "BUY" &&
-                    level.price < price
-            )
-            .sort(
+        const levels =
+            [...GRID_LEVELS].sort(
                 (a, b) =>
                     b.price - a.price
             );
 
 
-    const nearestBuy =
-        buys.length
-            ? buys[0].price
-            : null;
+        let insertedLive =
+            false;
 
 
-    document.getElementById(
-        "nearestBuy"
-    ).textContent =
+        for (const level of levels) {
 
-        nearestBuy !== null
-            ? formatPrice(nearestBuy)
-            : "---";
+            /*
+                JEŚLI AKTUALNA CENA JEST
+                POMIĘDZY POZIOMAMI,
+                WSTAWIAMY LIVE.
+            */
+
+            if (
+                currentPrice !== null &&
+                !insertedLive &&
+                currentPrice > level.price
+            ) {
+
+                addLivePrice(
+                    grid,
+                    currentPrice
+                );
+
+                insertedLive = true;
+
+            }
 
 
-    /* ======================================
-       NAJBLIŻSZY SELL
-    ====================================== */
+            addGridLevel(
+                grid,
+                level.price
+            );
 
-    const sells =
-        levels
-            .filter(
-                level =>
-                    level.type === "SELL" &&
-                    level.price > price
-            )
-            .sort(
-                (a, b) =>
-                    a.price - b.price
+        }
+
+
+        /*
+            JEŚLI LIVE JEST PONIŻEJ
+            NAJNIŻSZEGO POZIOMU
+        */
+
+        if (
+            currentPrice !== null &&
+            !insertedLive
+        ) {
+
+            addLivePrice(
+                grid,
+                currentPrice
+            );
+
+        }
+
+    }
+
+
+    /*
+        DODAWANIE POZIOMU GRIDU
+    */
+
+    function addGridLevel(
+        container,
+        price
+    ) {
+
+        const type =
+            getLevelType(price);
+
+
+        const row =
+            document.createElement("div");
+
+
+        row.className =
+            "level " +
+            (
+                type === "BUY"
+                    ? "buy"
+                    : type === "SELL"
+                        ? "sell"
+                        : "base"
             );
 
 
-    const nearestSell =
-        sells.length
-            ? sells[0].price
-            : null;
+        /*
+            LEWA CZĘŚĆ
+        */
+
+        const label =
+            document.createElement("div");
 
 
-    document.getElementById(
-        "nearestSell"
-    ).textContent =
-
-        nearestSell !== null
-            ? formatPrice(nearestSell)
-            : "---";
+        label.className =
+            "level-label";
 
 
-    /* ======================================
-       AKTUALNA BAZA
-    ====================================== */
-
-    document.getElementById(
-        "currentBase"
-    ).textContent =
-
-        formatPrice(
-            Number(selectedBase)
-        ) +
-        " USDT";
-
-}
+        label.textContent =
+            type === "BASE"
+                ? "BAZA"
+                : type;
 
 
-/* ==========================================
-   AKTUALIZACJA CENY
-========================================== */
+        /*
+            ŚRODEK — CENA
+        */
+
+        const priceElement =
+            document.createElement("div");
 
 
-async function update() {
+        priceElement.className =
+            "level-price";
 
 
-    const status =
-        document.getElementById(
-            "status"
-        );
-
-
-    try {
-
-
-        const price =
-            await getPrice();
-
-
-        window.lastPrice =
-            price;
-
-
-        document.getElementById(
-            "currentPrice"
-        ).textContent =
-
-            formatPrice(price)
-            +
+        priceElement.textContent =
+            formatPrice(price) +
             " USDT";
 
 
-        renderGrid(
-            price
-        );
-
-
-        status.textContent =
-            "● ONLINE — BingX";
-
-
-        status.className =
-            "status";
-
-
         /*
-        Aktualizujemy również
-        niebieską linię aktualnej
-        ceny na wykresie.
+            PRAWA CZĘŚĆ
         */
 
-        if (
-            window.chartData
-        ) {
+        const action =
+            document.createElement("div");
 
-            drawChart(
-                window.chartData
+
+        action.className =
+            "level-action";
+
+
+        if (type === "BASE") {
+
+            const badge =
+                document.createElement("span");
+
+
+            badge.className =
+                "base-badge";
+
+
+            badge.textContent =
+                "★ BAZA";
+
+
+            action.appendChild(
+                badge
+            );
+
+        } else {
+
+            const button =
+                document.createElement("button");
+
+
+            button.textContent =
+                "USTAW BAZĘ";
+
+
+            button.onclick =
+                function () {
+
+                    setBase(price);
+
+                };
+
+
+            action.appendChild(
+                button
             );
 
         }
 
 
-        const now =
-            new Date();
+        row.appendChild(
+            label
+        );
 
+        row.appendChild(
+            priceElement
+        );
 
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
-
-            "Ostatnia aktualizacja: "
-            +
-            now.toLocaleTimeString();
-
-    }
-
-
-    catch (error) {
-
-
-        console.error(
-            error
+        row.appendChild(
+            action
         );
 
 
-        status.textContent =
-            "● BŁĄD POŁĄCZENIA Z BINGX";
-
-
-        status.className =
-            "status error";
-
-
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
-
-            "Nie udało się pobrać ceny.";
+        container.appendChild(
+            row
+        );
 
     }
 
-}
+
+    /*
+        DODAWANIE AKTUALNEJ CENY
+    */
+
+    function addLivePrice(
+        container,
+        price
+    ) {
+
+        const row =
+            document.createElement("div");
 
 
-/* ==========================================
-   HISTORIA 30 DNI
-========================================== */
+        row.className =
+            "level live";
 
 
-async function getHistory() {
+        const label =
+            document.createElement("div");
 
 
-    const response =
-        await fetch(
+        label.className =
+            "level-label";
 
-            "/api/klines",
 
-            {
-                cache: "no-store"
+        label.innerHTML =
+            "●<br>TERAZ";
+
+
+        const priceElement =
+            document.createElement("div");
+
+
+        priceElement.className =
+            "level-price live-price";
+
+
+        priceElement.textContent =
+            formatPrice(price) +
+            " USDT";
+
+
+        const action =
+            document.createElement("div");
+
+
+        action.className =
+            "level-action";
+
+
+        action.textContent =
+            "LIVE";
+
+
+        row.appendChild(
+            label
+        );
+
+        row.appendChild(
+            priceElement
+        );
+
+        row.appendChild(
+            action
+        );
+
+
+        container.appendChild(
+            row
+        );
+
+    }
+
+
+    /*
+        POBIERANIE AKTUALNEJ CENY
+    */
+
+    async function updatePrice() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/price?t=" +
+                    Date.now(),
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP " +
+                    response.status
+                );
+
             }
 
-        );
+
+            const data =
+                await response.json();
 
 
-    if (!response.ok) {
+            if (
+                !data.price ||
+                !Number.isFinite(
+                    Number(data.price)
+                )
+            ) {
 
-        throw new Error(
-            "HTTP " +
-            response.status
-        );
+                throw new Error(
+                    "Brak poprawnej ceny"
+                );
 
-    }
-
-
-    const data =
-        await response.json();
-
-
-    if (
-        !Array.isArray(data)
-    ) {
-
-        throw new Error(
-            "Brak historii"
-        );
-
-    }
+            }
 
 
-    return data;
-
-}
-
-
-/* ==========================================
-   RYSOWANIE WYKRESU
-========================================== */
+            const price =
+                Number(data.price);
 
 
-function drawChart(
-    data
-) {
+            window.lastPrice =
+                price;
 
 
-    const canvas =
-        document.getElementById(
-            "chart"
-        );
+            document.getElementById(
+                "currentPrice"
+            ).textContent =
+                formatPrice(price) +
+                " USDT";
 
 
-    const rect =
-        canvas.getBoundingClientRect();
+            document.getElementById(
+                "status"
+            ).textContent =
+                "● ONLINE — BingX";
 
 
-    const dpr =
-        window.devicePixelRatio ||
-        1;
-
-
-    canvas.width =
-        rect.width * dpr;
-
-
-    canvas.height =
-        rect.height * dpr;
-
-
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
-
-
-    ctx.scale(
-        dpr,
-        dpr
-    );
-
-
-    const width =
-        rect.width;
-
-
-    const height =
-        rect.height;
-
-
-    /* ======================================
-       MARGINESY
-    ====================================== */
-
-    const left = 48;
-
-    const right = 55;
-
-    const top = 15;
-
-    const bottom = 28;
-
-
-    const chartWidth =
-        width -
-        left -
-        right;
-
-
-    const chartHeight =
-        height -
-        top -
-        bottom;
-
-
-    /* ======================================
-       ZAKRES CENOWY
-       
-       Bierzemy pod uwagę:
-       - całą siatkę
-       - historię
-       - aktualną cenę
-    ====================================== */
-
-    const gridPrices =
-        GRID_LEVELS.map(
-            level =>
-                Number(level.price)
-        );
-
-
-    const historyPrices =
-        data.map(
-            item =>
-                Number(item.close)
-        );
-
-
-    let minPrice =
-        Math.min(
-            ...gridPrices,
-            ...historyPrices
-        );
-
-
-    let maxPrice =
-        Math.max(
-            ...gridPrices,
-            ...historyPrices
-        );
-
-
-    if (
-        window.lastPrice
-    ) {
-
-        minPrice =
-            Math.min(
-                minPrice,
-                Number(window.lastPrice)
+            renderGrid(
+                price
             );
 
 
-        maxPrice =
+            /*
+                AKTUALIZUJEMY NIEBIESKĄ LINIĘ
+                NA WYKRESIE
+            */
+
+            if (
+                window.chartData
+            ) {
+
+                drawChart(
+                    window.chartData
+                );
+
+            }
+
+        } catch (error) {
+
+            document.getElementById(
+                "status"
+            ).textContent =
+                "● BŁĄD POŁĄCZENIA Z BINGX";
+
+        }
+
+    }
+
+
+    /*
+        POBIERANIE HISTORII
+    */
+
+    async function loadChart() {
+
+        try {
+
+            document.getElementById(
+                "chartStatus"
+            ).textContent =
+                "● Ładowanie historii BingX...";
+
+
+            const response =
+                await fetch(
+                    "/api/klines?t=" +
+                    Date.now(),
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP " +
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !Array.isArray(data) ||
+                data.length === 0
+            ) {
+
+                throw new Error(
+                    "Brak danych"
+                );
+
+            }
+
+
+            window.chartData =
+                data;
+
+
+            drawChart(
+                data
+            );
+
+
+            document.getElementById(
+                "chartStatus"
+            ).textContent =
+                "● HISTORIA BINGX";
+
+
+        } catch (error) {
+
+            document.getElementById(
+                "chartStatus"
+            ).textContent =
+                "● BŁĄD HISTORII BINGX";
+
+        }
+
+    }
+
+
+    /*
+        RYSOWANIE WYKRESU
+    */
+
+    function drawChart(data) {
+
+        const canvas =
+            document.getElementById(
+                "priceChart"
+            );
+
+
+        /*
+            CENY Z HISTORII
+        */
+
+        const historyPrices =
+            data
+                .map(
+                    item =>
+                        Number(item.close)
+                )
+                .filter(
+                    value =>
+                        Number.isFinite(value)
+                );
+
+
+        /*
+            WSZYSTKIE POZIOMY GRIDU
+        */
+
+        const gridPrices =
+            GRID_LEVELS.map(
+                level =>
+                    Number(level.price)
+            );
+
+
+        /*
+            USTALAMY MIN/MAX
+            Z CAŁEGO GRIDU + HISTORII
+        */
+
+        let minPrice =
+            Math.min(
+                ...gridPrices,
+                ...historyPrices
+            );
+
+
+        let maxPrice =
             Math.max(
-                maxPrice,
-                Number(window.lastPrice)
+                ...gridPrices,
+                ...historyPrices
+            );
+
+
+        /*
+            DODAJEMY AKTUALNĄ CENĘ
+        */
+
+        if (
+            window.lastPrice !== null
+        ) {
+
+            minPrice =
+                Math.min(
+                    minPrice,
+                    Number(
+                        window.lastPrice
+                    )
+                );
+
+
+            maxPrice =
+                Math.max(
+                    maxPrice,
+                    Number(
+                        window.lastPrice
+                    )
+                );
+
+        }
+
+
+        /*
+            5% MARGINESU
+        */
+
+        const padding =
+            (maxPrice - minPrice) *
+            0.05;
+
+
+        minPrice -=
+            padding;
+
+
+        maxPrice +=
+            padding;
+
+
+        /*
+            ETYKIETY CZASU
+        */
+
+        const labels =
+            data.map(
+                item =>
+                    new Date(
+                        Number(item.time)
+                    ).toLocaleDateString(
+                        "pl-PL",
+                        {
+                            day: "2-digit",
+                            month: "2-digit"
+                        }
+                    )
+            );
+
+
+        /*
+            CENY HISTORII
+        */
+
+        const historyData =
+            data.map(
+                item =>
+                    Number(item.close)
+            );
+
+
+        /*
+            DATASETY
+        */
+
+        const datasets = [
+
+            {
+                label:
+                    "SPCXB",
+
+                data:
+                    historyData,
+
+                borderColor:
+                    "#8b949e",
+
+                backgroundColor:
+                    "rgba(139,148,158,0.08)",
+
+                borderWidth:
+                    2,
+
+                pointRadius:
+                    0,
+
+                tension:
+                    0.15,
+
+                fill:
+                    true
+            }
+
+        ];
+
+
+        /*
+            DODAJEMY KAŻDY POZIOM GRIDU
+        */
+
+        GRID_LEVELS.forEach(
+            level => {
+
+                const type =
+                    getLevelType(
+                        level.price
+                    );
+
+
+                let lineColor;
+
+
+                if (
+                    type === "BUY"
+                ) {
+
+                    lineColor =
+                        "#ff4545";
+
+                } else if (
+                    type === "SELL"
+                ) {
+
+                    lineColor =
+                        "#32c85b";
+
+                } else {
+
+                    lineColor =
+                        "#e7a900";
+
+                }
+
+
+                datasets.push({
+
+                    label:
+                        type === "BASE"
+                            ? "BAZA " +
+                              formatPrice(
+                                  level.price
+                              )
+                            : type +
+                              " " +
+                              formatPrice(
+                                  level.price
+                              ),
+
+                    data:
+                        labels.map(
+                            () =>
+                                level.price
+                        ),
+
+                    borderColor:
+                        lineColor,
+
+                    borderWidth:
+                        type === "BASE"
+                            ? 3
+                            : 1,
+
+                    pointRadius:
+                        0,
+
+                    borderDash:
+                        type === "BASE"
+                            ? []
+                            : [6, 5],
+
+                    fill:
+                        false
+
+                });
+
+            }
+        );
+
+
+        /*
+            AKTUALNA CENA
+        */
+
+        if (
+            window.lastPrice !== null
+        ) {
+
+            datasets.push({
+
+                label:
+                    "TERAZ " +
+                    formatPrice(
+                        window.lastPrice
+                    ),
+
+                data:
+                    labels.map(
+                        () =>
+                            window.lastPrice
+                    ),
+
+                borderColor:
+                    "#4095ff",
+
+                borderWidth:
+                    3,
+
+                pointRadius:
+                    0,
+
+                borderDash:
+                    [2, 4],
+
+                fill:
+                    false
+
+            });
+
+        }
+
+
+        /*
+            JEŚLI STARY WYKRES ISTNIEJE
+            — USUWAMY GO
+        */
+
+        if (priceChart) {
+
+            priceChart.destroy();
+
+        }
+
+
+        /*
+            TWORZYMY NOWY WYKRES
+        */
+
+        priceChart =
+            new Chart(
+                canvas,
+                {
+
+                    type:
+                        "line",
+
+                    data: {
+
+                        labels:
+                            labels,
+
+                        datasets:
+                            datasets
+
+                    },
+
+                    options: {
+
+                        responsive:
+                            true,
+
+                        maintainAspectRatio:
+                            false,
+
+                        animation:
+                            false,
+
+                        interaction: {
+
+                            mode:
+                                "index",
+
+                            intersect:
+                                false
+
+                        },
+
+                        plugins: {
+
+                            legend: {
+
+                                display:
+                                    true,
+
+                                labels: {
+
+                                    color:
+                                        "#ffffff",
+
+                                    boxWidth:
+                                        18,
+
+                                    font: {
+
+                                        size:
+                                            10
+
+                                    }
+
+                                }
+
+                            },
+
+                            tooltip: {
+
+                                enabled:
+                                    true
+
+                            }
+
+                        },
+
+                        scales: {
+
+                            x: {
+
+                                ticks: {
+
+                                    color:
+                                        "#8b949e",
+
+                                    maxTicksLimit:
+                                        10
+
+                                },
+
+                                grid: {
+
+                                    color:
+                                        "rgba(255,255,255,0.05)"
+
+                                }
+
+                            },
+
+                            y: {
+
+                                min:
+                                    minPrice,
+
+                                max:
+                                    maxPrice,
+
+                                ticks: {
+
+                                    color:
+                                        "#8b949e",
+
+                                    callback:
+                                        function(value) {
+
+                                            return Number(
+                                                value
+                                            ).toFixed(
+                                                2
+                                            );
+
+                                        }
+
+                                },
+
+                                grid: {
+
+                                    color:
+                                        "rgba(255,255,255,0.08)"
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
             );
 
     }
 
 
     /*
-    5% wolnego miejsca
+        START
     */
 
-    const padding =
-        (
-            maxPrice -
-            minPrice
-        )
-        *
-        0.05;
-
-
-    minPrice -=
-        padding;
-
-
-    maxPrice +=
-        padding;
-
-
-    /* ======================================
-       CZYSZCZENIE
-    ====================================== */
-
-    ctx.clearRect(
-        0,
-        0,
-        width,
-        height
+    renderGrid(
+        null
     );
 
 
-    /* ======================================
-       POZIOME LINIE SKALI
-    ====================================== */
+    updatePrice();
 
-    ctx.strokeStyle =
-        "#30363d";
 
+    loadChart();
 
-    ctx.lineWidth =
-        1;
 
+    /*
+        CENA CO 2 SEKUNDY
+    */
 
-    ctx.font =
-        "11px Arial";
-
-
-    ctx.fillStyle =
-        "#8b949e";
-
-
-    const gridCount =
-        6;
-
-
-    for (
-        let i = 0;
-        i <= gridCount;
-        i++
-    ) {
-
-
-        const y =
-            top +
-            (
-                chartHeight *
-                i /
-                gridCount
-            );
-
-
-        ctx.beginPath();
-
-
-        ctx.moveTo(
-            left,
-            y
-        );
-
-
-        ctx.lineTo(
-            width - right,
-            y
-        );
-
-
-        ctx.stroke();
-
-
-        const value =
-            maxPrice -
-            (
-                (
-                    maxPrice -
-                    minPrice
-                )
-                *
-                i /
-                gridCount
-            );
-
-
-        ctx.fillText(
-
-            value.toFixed(2),
-
-            5,
-
-            y + 4
-
-        );
-
-    }
-
-
-    /* ======================================
-       TWOJA SIATKA
-    ====================================== */
-
-    GRID_LEVELS.forEach(
-        level => {
-
-
-            const price =
-                Number(
-                    level.price
-                );
-
-
-            const y =
-                top +
-                (
-                    (
-                        maxPrice -
-                        price
-                    )
-                    /
-                    (
-                        maxPrice -
-                        minPrice
-                    )
-                )
-                *
-                chartHeight;
-
-
-            /*
-            Linia przerywana
-            */
-
-            ctx.setLineDash(
-                [6, 5]
-            );
-
-
-            ctx.lineWidth =
-                1.2;
-
-
-            /*
-            KOLOR
-            */
-
-            if (
-                price ===
-                Number(selectedBase)
-            ) {
-
-                ctx.strokeStyle =
-                    "rgba(210,153,34,0.90)";
-
-            }
-
-            else if (
-                level.type === "BUY"
-            ) {
-
-                ctx.strokeStyle =
-                    "rgba(248,81,73,0.50)";
-
-            }
-
-            else {
-
-                ctx.strokeStyle =
-                    "rgba(63,185,80,0.50)";
-
-            }
-
-
-            ctx.beginPath();
-
-
-            ctx.moveTo(
-                left,
-                y
-            );
-
-
-            ctx.lineTo(
-                width - right,
-                y
-            );
-
-
-            ctx.stroke();
-
-
-            ctx.setLineDash([]);
-
-
-            /*
-            Kolor ceny
-            */
-
-            if (
-                price ===
-                Number(selectedBase)
-            ) {
-
-                ctx.fillStyle =
-                    "#d29922";
-
-            }
-
-            else if (
-                level.type === "BUY"
-            ) {
-
-                ctx.fillStyle =
-                    "#f85149";
-
-            }
-
-            else {
-
-                ctx.fillStyle =
-                    "#3fb950";
-
-            }
-
-
-            ctx.font =
-                "bold 11px Arial";
-
-
-            /*
-            Cena po prawej
-            */
-
-            ctx.fillText(
-
-                price.toFixed(2),
-
-                width - 42,
-
-                y - 5
-
-            );
-
-
-            /*
-            BAZA
-            */
-
-            if (
-                price ===
-                Number(selectedBase)
-            ) {
-
-                ctx.fillText(
-
-                    "BAZA",
-
-                    left + 5,
-
-                    y - 5
-
-                );
-
-            }
-
-        }
+    setInterval(
+        updatePrice,
+        2000
     );
 
 
-    /* ======================================
-       LINIA HISTORYCZNEJ CENY
-    ====================================== */
-
-    if (
-        data.length > 1
-    ) {
-
-
-        ctx.beginPath();
-
-
-        data.forEach(
-            (item, index) => {
-
-
-                const x =
-                    left +
-                    (
-                        index /
-                        (
-                            data.length - 1
-                        )
-                    )
-                    *
-                    chartWidth;
-
-
-                const y =
-                    top +
-                    (
-                        (
-                            maxPrice -
-                            Number(item.close)
-                        )
-                        /
-                        (
-                            maxPrice -
-                            minPrice
-                        )
-                    )
-                    *
-                    chartHeight;
-
-
-                if (
-                    index === 0
-                ) {
-
-                    ctx.moveTo(
-                        x,
-                        y
-                    );
-
-                }
-
-                else {
-
-                    ctx.lineTo(
-                        x,
-                        y
-                    );
-
-                }
-
-            }
-        );
-
-
-        ctx.strokeStyle =
-            "#58a6ff";
-
-
-        ctx.lineWidth =
-            2;
-
-
-        ctx.stroke();
-
-    }
-
-
-    /* ======================================
-       AKTUALNA CENA
-    ====================================== */
-
-    if (
-        window.lastPrice
-    ) {
-
-
-        const current =
-            Number(
-                window.lastPrice
-            );
-
-
-        const y =
-            top +
-            (
-                (
-                    maxPrice -
-                    current
-                )
-                /
-                (
-                    maxPrice -
-                    minPrice
-                )
-            )
-            *
-            chartHeight;
-
-
-        /*
-        Niebieska linia
-        */
-
-        ctx.setLineDash(
-            [4, 4]
-        );
-
-
-        ctx.strokeStyle =
-            "#58a6ff";
-
-
-        ctx.lineWidth =
-            1.2;
-
-
-        ctx.beginPath();
-
-
-        ctx.moveTo(
-            left,
-            y
-        );
-
-
-        ctx.lineTo(
-            width - right,
-            y
-        );
-
-
-        ctx.stroke();
-
-
-        ctx.setLineDash([]);
-
-
-        /*
-        Cena aktualna
-        */
-
-        ctx.fillStyle =
-            "#58a6ff";
-
-
-        ctx.font =
-            "bold 11px Arial";
-
-
-        ctx.fillText(
-
-            current.toFixed(2),
-
-            width - 42,
-
-            y - 5
-
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   ŁADOWANIE WYKRESU
-========================================== */
-
-
-async function loadChart() {
-
-
-    const status =
-        document.getElementById(
-            "chartStatus"
-        );
-
-
-    try {
-
-
-        const data =
-            await getHistory();
-
-
-        if (
-            data.length < 2
-        ) {
-
-            throw new Error(
-                "Za mało danych"
-            );
-
-        }
-
-
-        window.chartData =
-            data;
-
-
-        drawChart(
-            data
-        );
-
-
-        /*
-        DATY
-        */
-
-        const first =
-            new Date(
-                data[0].time
-            );
-
-
-        const last =
-            new Date(
-                data[
-                    data.length - 1
-                ].time
-            );
-
-
-        document.getElementById(
-            "chartStart"
-        ).textContent =
-
-            first.toLocaleDateString();
-
-
-        document.getElementById(
-            "chartEnd"
-        ).textContent =
-
-            last.toLocaleDateString();
-
-
-        status.textContent =
-            "● HISTORIA BINGX";
-
-    }
-
-
-    catch (error) {
-
-
-        console.error(
-            error
-        );
-
-
-        status.textContent =
-            "Błąd pobierania historii";
-
-    }
-
-}
-
-
-/* ==========================================
-   START
-========================================== */
-
-
-update();
-
-
-loadChart();
-
-
-/* ==========================================
-   CENA CO 6 SEKUNDY
-========================================== */
-
-
-setInterval(
-
-    update,
-
-    6000
-
-);
-
-
-/* ==========================================
-   HISTORIA CO 5 MINUT
-========================================== */
-
-
-setInterval(
-
-    loadChart,
-
-    5 * 60 * 1000
-
-);
-
-
-/* ==========================================
-   ZMIANA ROZMIARU OKNA
-========================================== */
-
-
-window.addEventListener(
-
-    "resize",
-
-    () => {
-
-        if (
-            window.chartData
-        ) {
-
-            drawChart(
-                window.chartData
-            );
-
-        }
-
-    }
-
-);
+    /*
+        HISTORIA CO 5 MINUT
+    */
+
+    setInterval(
+        loadChart,
+        5 * 60 * 1000
+    );
 
 </script>
 
-
 </body>
-
 </html>
